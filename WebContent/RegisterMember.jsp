@@ -8,7 +8,8 @@
 <title>RegisterMember</title>
 </head>
 <body>
-	<form action="<c:url value="/abc"/>" method="post">
+	<form enctype="multipart/form-data" action="<c:url value="/abc"/>"
+		method="post">
 		<table>
 			<thead>
 				<tr>
@@ -50,8 +51,8 @@
 				<tr>
 					<td>性別:</td>
 					<td>男<input type="radio" id="gender" name="gender"
-						value="男"> 女<input type="radio" id="gender"
-						name="gender" value="女">
+						value="male"> 女<input type="radio" id="gender"
+						name="gender" value="female">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>

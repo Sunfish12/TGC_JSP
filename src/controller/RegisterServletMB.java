@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import model.GlobalService;
+import model.MemberBean;
+import model.MemberService;
 
 @WebServlet(urlPatterns = { "/abc" })
 @MultipartConfig(location = "", fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 500, maxRequestSize = 1024 * 1024 * 500 * 5)
@@ -40,6 +43,7 @@ public class RegisterServletMB extends HttpServlet {
 		session.setAttribute("MsgOK", msgOK); // 顯示常訊息
 
 		String username = "";
+		String pswd = "";
 		String pswd1 = "";
 		String pswd2 = "";
 		String email = "";
@@ -52,7 +56,7 @@ public class RegisterServletMB extends HttpServlet {
 		String joinDate = "";
 		String phone = "";
 		String memberAddress = "";
-		String fileName = "";
+		String filename = "";
 		long sizeInBytes = 0;
 		InputStream is = null;
 
@@ -94,17 +98,100 @@ public class RegisterServletMB extends HttpServlet {
 						memberAddress = value;
 					}
 				} else {
-					fileName = GlobalService.getFileName(p); // 此為圖片檔的檔名
-					if (fileName != null && fileName.trim().length() > 0) {
+					filename = GlobalService.getFileName(p); // 此為圖片檔的檔名
+					if (filename != null && filename.trim().length() > 0) {
 						sizeInBytes = p.getSize();
 						is = p.getInputStream();
 					} else {
 						errorMsg.put("errPicture", "必須挑選圖片檔");
 					}
 				}
-				// 2. 進行必要的資料轉換
-				
 			}
+			// 2. 進行必要的資料轉換
+			// 3. 檢查使用者輸入資料
+			if (username == null || username.trim().length() == 0) {
+				errorMsg.put("errorUserNameEmpty", "帳號欄必須輸入");
+			}
+			if (pswd1 == null || pswd1.trim().length() == 0) {
+				errorMsg.put("errorPswd1Empty", "密碼欄必須輸入");
+			}
+			if (pswd2 == null || pswd2.trim().length() == 0) {
+				errorMsg.put("errorPswd2Empty", "密碼確認欄必須輸入");
+			}
+			if (pswd1.trim().length() > 0 && pswd2.trim().length() > 0) {
+				if (!pswd1.trim().equals(pswd2.trim())) {
+					errorMsg.put("errorPswd2Empty", "密碼欄必須與確認欄一致");
+					errorMsg.put("errorPswd1Empty", "*");
+				} else {
+					pswd = pswd2.trim();
+				}
+			}
+			if (email == null || email.trim().length() == 0) {
+				errorMsg.put("errorEmail", "電子郵件欄必須輸入");
+			}
+		} else {
+			errorMsg.put("errTitle", "此表單不是上傳檔案的表單");
+		}
+		// 如果有錯誤
+		if (!errorMsg.isEmpty()) {
+			// 導向原來輸入資料的畫面，這次會顯示錯誤訊息
+			RequestDispatcher rd = request
+					.getRequestDispatcher("RegisterMember.jsp");
+			rd.forward(request, response);
+			return;
+		}
+		try {
+			// 4. 進行Business Logic運算
+
+			// 4.1.檢查帳號是否已經存在
+			// 4.2.儲存會員的資料
+			MemberService service = new MemberService();
+			MemberBean bean = new MemberBean();
+			bean.setUsername(username);
+			if (service.select(bean) != null) {
+				errorMsg.put("errorUserNameDup", "此帳號已存在，請換個帳號");
+			} else {
+				bean = new MemberBean();
+				bean.setUsername(username);
+				bean.setPswd(pswd.getBytes());
+				bean.setEmail(email);
+				bean.setLastname(lastname);
+				bean.setFirstname(firstname);
+				bean.setGender(gender);
+				bean.setNickname(nickname);
+				bean.setBirthday(MemberBean.convertDate(birthday));
+				bean.setIdCard(idCard);
+				bean.setJoinDate(MemberBean.convertDate(joinDate));
+				bean.setPhone(phone);
+				bean.setMemberAddress(memberAddress);
+				// 將MemberBean bean立即寫入Database
+				MemberBean result = service.register(bean, is, sizeInBytes,
+						filename);
+				if (result != null) {
+					msgOK.put("InsertOK",
+							"<Font color='red'>新增成功，請開始使用本系統</Font>");
+					response.sendRedirect("RegisterMember.jsp");
+					return;
+				} else {
+					errorMsg.put("errorUserNameDup",
+							"新增此筆資料有誤(RegisterServletMB)");
+				}
+			}
+			// 5.依照 Business Logic 運算結果來挑選適當的畫面
+			if (!errorMsg.isEmpty()) {
+				// 導向原來輸入資料的畫面，這次會顯示錯誤訊息
+				RequestDispatcher rd = request
+						.getRequestDispatcher("RegisterMember.jsp");
+				rd.forward(request, response);
+				return;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			errorMsg.put("errorIDDup", e.getMessage());
+			RequestDispatcher rd = request
+					.getRequestDispatcher("RegisterMember.jsp");
+			rd.forward(request, response);
 		}
 	}
 }

@@ -15,13 +15,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import model.MemberBean;
 import model.MemberDAO;
 
 public class MemberDAO_JDBC implements MemberDAO {
-	private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=BoardGames";
-	private static final String USERNAME = "sa";
-	private static final String PASSWORD = "sa123456";
+	// private static final String URL =
+	// "jdbc:sqlserver://localhost:1433;databaseName=BoardGames";
+	// private static final String USERNAME = "sa";
+	// private static final String PASSWORD = "sa123456";
+
+	private DataSource dataSource;
+
+	public MemberDAO_JDBC() {
+		try {
+			Context ctx = new InitialContext();
+			dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/xxx");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String SELECT_BY_USERNAME = "select * from member where username = ?";
 
@@ -33,7 +50,8 @@ public class MemberDAO_JDBC implements MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SELECT_BY_USERNAME);
 			pstmt.setString(1, username);
 			rs = pstmt.executeQuery();
@@ -116,7 +134,8 @@ public class MemberDAO_JDBC implements MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(SELECT_ALL);
 			rs = pstmt.executeQuery();
 
@@ -202,7 +221,8 @@ public class MemberDAO_JDBC implements MemberDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(INSERT);
 			pstmt.setString(1, bean.getUsername());
 			pstmt.setBytes(2, bean.getPswd());
@@ -287,7 +307,8 @@ public class MemberDAO_JDBC implements MemberDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(UPDATE);
 			pstmt.setBytes(1, bean.getPswd());
 			pstmt.setString(2, bean.getEmail());
@@ -396,7 +417,8 @@ public class MemberDAO_JDBC implements MemberDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			// conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(DELETE);
 			pstmt.setString(1, username);
 			int i = pstmt.executeUpdate();
