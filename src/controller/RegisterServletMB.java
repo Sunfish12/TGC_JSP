@@ -20,8 +20,8 @@ import model.GlobalService;
 import model.MemberBean;
 import model.MemberService;
 
-@WebServlet(urlPatterns = { "/abc" })
-@MultipartConfig(location = "", fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 500, maxRequestSize = 1024 * 1024 * 500 * 5)
+@WebServlet(urlPatterns = { "/RegisterServletMB" })
+@MultipartConfig(location = "E:\\temp", fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 500, maxRequestSize = 1024 * 1024 * 500 * 5)
 public class RegisterServletMB extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,7 @@ public class RegisterServletMB extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// 準備存放錯誤訊息的Map物件
+		request.setCharacterEncoding("UTF-8"); // 文字資料轉內碼
 		Map<String, String> errorMsg = new HashMap<String, String>();
 		// 準備存放註冊成功之訊息的Map物件
 		Map<String, String> msgOK = new HashMap<String, String>();
@@ -170,7 +171,10 @@ public class RegisterServletMB extends HttpServlet {
 				if (result != null) {
 					msgOK.put("InsertOK",
 							"<Font color='red'>新增成功，請開始使用本系統</Font>");
-					response.sendRedirect("RegisterMember.jsp");
+					response.sendRedirect("Index.jsp");
+//					RequestDispatcher rd = request
+//							.getRequestDispatcher("ShowMyMemberData.jsp");
+//					rd.forward(request, response);
 					return;
 				} else {
 					errorMsg.put("errorUserNameDup",

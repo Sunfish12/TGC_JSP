@@ -8,7 +8,7 @@
 <title>RegisterMember</title>
 </head>
 <body>
-	<form enctype="multipart/form-data" action="<c:url value="/abc"/>"
+	<form enctype="multipart/form-data" action="<c:url value="/RegisterServletMB"/>"
 		method="post">
 		<table>
 			<thead>
@@ -19,71 +19,71 @@
 			<tbody>
 				<tr>
 					<td>帳號:</td>
-					<td><input type="text" id="username" name="username" value="">
+					<td><input type="text" id="username" name="username" value="sunfisher">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>密碼:</td>
-					<td><input type="password" id="pswd1" name="pswd1" value="">
+					<td><input type="password" id="pswd1" name="pswd1" value="Aa@123">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>密碼確認:</td>
-					<td><input type="password" id="pswd2" name="pswd2" value="">
+					<td><input type="password" id="pswd2" name="pswd2" value="Aa@123">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>信箱:</td>
-					<td><input type="text" id="email" name="email" value="">
+					<td><input type="text" id="email" name="email" value="sunfisher@gmail.com">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>姓氏:</td>
-					<td><input type="text" id="lastname" name="lastname" value="">
+					<td><input type="text" id="lastname" name="lastname" value="弗利曼">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>名字:</td>
 					<td><input type="text" id="firstname" name="firstname"
-						value="">
+						value="高登">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>性別:</td>
 					<td>男<input type="radio" id="gender" name="gender"
-						value="male"> 女<input type="radio" id="gender"
-						name="gender" value="female">
+						value="男"> 女<input type="radio" id="gender"
+						name="gender" value="女">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>暱稱:</td>
-					<td><input type="text" id="nickname" name="nickname" value="">
+					<td><input type="text" id="nickname" name="nickname" value="自由之子">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>生日:</td>
-					<td><input type="text" id="birthday" name="birthday" value="">
+					<td><input type="text" id="birthday" name="birthday" value="1990-10-10">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>身分證字號:</td>
-					<td><input type="text" id="idCard" name="idCard" value="">
+					<td><input type="text" id="idCard" name="idCard" value="A1234567890">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>會員加入日:</td>
-					<td><input type="text" id="joinDate" name="joinDate" value="">
+					<td><input type="text" id="joinDate" name="joinDate" value="2014-10-10">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>手機:</td>
-					<td><input type="text" id="phone" name="phone" value="">
+					<td><input type="text" id="phone" name="phone" value="0911222333">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
 					<td>地址:</td>
 					<td><input type="text" id="memberAddress" name="memberAddress"
-						value="">
+						value="新北市三重區集美街219號3樓">
 						<div style="display: inline"></div></td>
 				</tr>
 				<tr>
