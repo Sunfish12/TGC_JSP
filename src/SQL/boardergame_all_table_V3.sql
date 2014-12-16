@@ -143,7 +143,7 @@ constraint StoreScore_storeId_fk foreign key (storeId) references StoreInformati
 --桌遊類型	BoardGameKind
 create table BoardGameKind(
 boardGameNumber							  int,
-boardGameStyle							  varchar(10),
+boardGameStyle							  varchar(30),
 constraint BoardGameKind_primary_key primary key (boardGameStyle));
 
 --(專賣店)桌遊資訊	BoardGames--
