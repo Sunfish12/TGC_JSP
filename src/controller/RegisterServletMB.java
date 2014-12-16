@@ -63,7 +63,7 @@ public class RegisterServletMB extends HttpServlet {
 
 		Collection<Part> parts = request.getParts(); // 取出HTTP multipart
 														// request內所有的parts
-		GlobalService.exploreParts(parts, request);
+		//GlobalService.exploreParts(parts, request);
 		// 由parts != null來判斷此上傳資料是否為HTTP multipart request
 		if (parts != null) { // 如果這是一個上傳資料的表單
 			for (Part p : parts) {
