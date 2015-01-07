@@ -63,7 +63,7 @@ public class RegisterServletMB extends HttpServlet {
 
 		Collection<Part> parts = request.getParts(); // 取出HTTP multipart
 														// request內所有的parts
-		//GlobalService.exploreParts(parts, request);
+		// GlobalService.exploreParts(parts, request);
 		// 由parts != null來判斷此上傳資料是否為HTTP multipart request
 		if (parts != null) { // 如果這是一個上傳資料的表單
 			for (Part p : parts) {
@@ -171,10 +171,11 @@ public class RegisterServletMB extends HttpServlet {
 				if (result != null) {
 					msgOK.put("InsertOK",
 							"<Font color='red'>新增成功，請開始使用本系統</Font>");
+					session.setAttribute("username", bean.getUsername());
 					response.sendRedirect("Index.jsp");
-//					RequestDispatcher rd = request
-//							.getRequestDispatcher("ShowMyMemberData.jsp");
-//					rd.forward(request, response);
+					// RequestDispatcher rd = request
+					// .getRequestDispatcher("ShowMyMemberData.jsp");
+					// rd.forward(request, response);
 					return;
 				} else {
 					errorMsg.put("errorUserNameDup",

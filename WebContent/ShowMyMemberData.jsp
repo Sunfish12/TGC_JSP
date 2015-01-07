@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<img src='${pageContext.servletContext.contextPath}/controller/GetImage?username=${Memberbean.username}&type=MEMBER'>
+	<img src='${pageContext.servletContext.contextPath}/controller/GetImage?username=${username}&type=MEMBER'>
 	<%-- 	<img src='${pageContext.servletContext.contextPath}/controller/GetImage?username=sunfisher&type=MEMBER'> --%>
 </body>
 </html>
